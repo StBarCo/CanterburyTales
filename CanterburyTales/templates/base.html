@@ -1,0 +1,71 @@
+{# HTML5 declaration #}
+<!DOCTYPE html>
+<html>
+<head>
+
+    {% load static %}
+
+{# Load the tag library #}
+{% load bootstrap4 %}
+            <link rel="stylesheet" type="text/css" href="{% static 'courses/style.css' %}">
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+
+{% bootstrap_javascript jquery='full' %}
+{{ form.media.css }}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Canterbury Trails</title>
+    {#    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>#}
+</head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Canterbury Trails</title>
+
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand" href={% url 'courses:index' %}>Canterbury Trails</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href={% url 'courses:create' %}>Share Course</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+    {% block content %}
+        if you see this something is terribly wrong
+    {% endblock content %}
+
+
+{{ form.media.js }}
+</body>
+
+</html>

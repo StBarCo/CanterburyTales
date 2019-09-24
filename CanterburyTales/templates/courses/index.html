@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div class="container">
+
+    <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+            <div class="boxed sidebar-box">
+                <h3 class="title section-title">Recently Verified</h3>
+                <ul class="sidebar-services-list">
+                    <li class="service is-small">
+
+                        Email on Acid
+                    </li>
+                    <li class="service is-small">
+
+                        TickCounter
+                    </li>
+                    <li class="service is-small">
+
+                        Percy
+                    </li>
+                    <li class="service is-small">
+
+                        Jostle
+                    </li>
+
+                </ul>
+            </div>
+
+
+        </div>
+        <div class="col-md-8 order-md-1">
+            <div class="row">
+                <div class="level-item">
+                    <div class="">
+                        <h1 class="title">New and Popular Courses</h1>
+                    </div>
+                </div>
+            </div>
+            {% if courses %}
+                                    <div class="card-deck">
+
+                {% for course in courses %}
+                    <div class="row mt-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ course.title }}</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                            <a href="{% url 'courses:detail' course.id %}" class="btn btn-primary">Explore</a>
+                        </div>
+                    </div>
+                    </div>
+
+                {% endfor %}
+                                    </div>
+
+            {% else %}
+                <p>No courses are available</p>
+            {% endif %}
+
+
+        </div>
+
+    </div>
+    <div class="container">
+
+{% endblock %}
