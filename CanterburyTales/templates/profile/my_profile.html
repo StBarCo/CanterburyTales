@@ -1,0 +1,77 @@
+<!-- templates/profile/signup.html -->
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{{ form.media.css }}
+
+
+{% block content %}
+<div class="container">
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12 lead">User profile<hr></div>
+          </div>
+          <div class="row">
+			<div class="col-md-4 text-center">
+              <img class="rounded-circle avatar avatar-original" style="-webkit-user-select:none;
+              display:block; margin:auto;" src={{ user.profile.pic.url }}>
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-12">
+                  <h1 class="mb-0">{{ user.username }}</h1>
+                    <h5 class="font-italic mb-0">{{ user.profile.title }}</h5>
+                    <p>{{ user.profile.org_name }}, {{user.profile.city }}, {{ user.profile.state }}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                    <p>{{ user.profile.about }}</p>
+{#                  <span class="text-muted">Email:</span> email@test.com<br>#}
+{#                  <span class="text-muted">Birth date:</span> 01.01.2001<br>#}
+{#                  <span class="text-muted">Gender:</span> male<br><br>#}
+{#                  <small class="text-muted">Created: 01.01.2015</small>#}
+                </div>
+
+
+                <div class="col-md-6">
+                  <div class="activity-mini">
+                    <i class="glyphicon glyphicon-comment text-muted"></i> 500
+                  </div>
+                  <div class="activity-mini">
+                    <i class="glyphicon glyphicon-thumbs-up text-muted"></i> 1500
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <hr><button class="btn btn-default pull-right"><i class="glyphicon glyphicon-pencil"></i> Edit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>My Profile:</h2>
+
+
+    <h2>{{ user.username }}</h2>
+    <h2>{{ user.profile.title }}</h2>
+    <h2>{{ user.profile.org_name }}</h2>
+
+    <h2>{{ user.profile.city }}</h2>
+    <h2>{{ user.profile.state }}</h2>
+<img src={{ user.profile.pic.url }}>
+<p>{{ user.profile.about }}</p>
+
+</div>
+
+{% endblock %}

@@ -2,6 +2,14 @@
 {% block content %}
         <div class="container">
 
+    {% if user.is_authenticated %}
+  Hi {{ user.username }}!
+        <p><a href="{% url 'logout' %}">logout</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+{% endif %}
+
     <div class="row">
         <div class="col-md-4 order-md-2 mb-4">
             <div class="boxed sidebar-box">
@@ -63,6 +71,240 @@
         </div>
 
     </div>
+    <div class="hackr-widget" data-tutorial="learning-python-with-pycharm" data-type="1"></div><script src="https://hackr.io/widget.js?v=1.0"></script>
+					<div id="DIV_694">
+							<div id="DIV_695">
+								<div id="DIV_696">
+									<div id="DIV_697">
+										<div id="DIV_698">
+											<div id="DIV_699">
+												<h3 id="H3_700">
+													filter courses
+												</h3>
+											</div>
+										</div>
+										<div id="DIV_701">
+											<form name="tutorialFiltersForm" id="FORM_702" method="post">
+												<div id="DIV_703">
+													<h3 id="H3_704">
+														Type of course
+													</h3>
+													<div id="DIV_705">
+
+														<label id="LABEL_706">
+															<input type="checkbox" name="type_tags[]" value="1" id="INPUT_707" /> <span id="SPAN_708">Free</span> <span id="SPAN_709">(70)</span>
+														</label>
+														<div id="DIV_710">
+														</div>
+													</div>
+													<div id="DIV_711">
+
+														<label id="LABEL_712">
+															<input type="checkbox" name="type_tags[]" value="2" id="INPUT_713" /> <span id="SPAN_714">Paid</span> <span id="SPAN_715">(41)</span>
+														</label>
+														<div id="DIV_716">
+														</div>
+													</div>
+												</div>
+												<div id="DIV_717">
+													<h3 id="H3_718">
+														Medium
+													</h3>
+													<div id="DIV_719">
+
+														<label id="LABEL_720">
+															<input type="checkbox" name="medium_tags[]" value="3" id="INPUT_721" /> <span id="SPAN_722">Video</span> <span id="SPAN_723">(44)</span>
+														</label>
+														<div id="DIV_724">
+														</div>
+													</div>
+													<div id="DIV_725">
+
+														<label id="LABEL_726">
+															<input type="checkbox" name="medium_tags[]" value="6" id="INPUT_727" /> <span id="SPAN_728">Book</span> <span id="SPAN_729">(19)</span>
+														</label>
+														<div id="DIV_730">
+														</div>
+													</div>
+												</div>
+												<div id="DIV_731">
+													<h3 id="H3_732">
+														Level
+													</h3>
+													<div id="DIV_733">
+
+														<label id="LABEL_734">
+															<input type="checkbox" name="level_tags[]" value="7" id="INPUT_735" /> <span id="SPAN_736">Beginner</span> <span id="SPAN_737">(63)</span>
+														</label>
+														<div id="DIV_738">
+														</div>
+													</div>
+													<div id="DIV_739">
+
+														<label id="LABEL_740">
+															<input type="checkbox" name="level_tags[]" value="5" id="INPUT_741" /> <span id="SPAN_742">Advanced</span> <span id="SPAN_743">(21)</span>
+														</label>
+														<div id="DIV_744">
+														</div>
+													</div>
+												</div>
+												<div id="DIV_745">
+													<h3 id="H3_746">
+														Version
+													</h3>
+													<div id="DIV_747">
+
+														<label id="LABEL_748">
+															<input type="checkbox" name="sub_topics[]" value="790" id="INPUT_749" /> <span id="SPAN_750">p5.js</span> <span id="SPAN_751">(1)</span>
+														</label>
+														<div id="DIV_752">
+														</div>
+													</div>
+													<div id="DIV_753">
+
+														<label id="LABEL_754">
+															<input type="checkbox" name="sub_topics[]" value="7" id="INPUT_755" /> <span id="SPAN_756">JavaScript</span> <span id="SPAN_757">(1)</span>
+														</label>
+														<div id="DIV_758">
+														</div>
+													</div>
+													<div id="DIV_759">
+
+														<label id="LABEL_760">
+															<input type="checkbox" name="sub_topics[]" value="301" id="INPUT_761" /> <span id="SPAN_762">ES6</span> <span id="SPAN_763">(4)</span>
+														</label>
+														<div id="DIV_764">
+														</div>
+													</div>
+													<div id="DIV_765">
+
+														<label id="LABEL_766">
+															<input type="checkbox" name="sub_topics[]" value="1385" id="INPUT_767" /> <span id="SPAN_768">Functional Programming</span> <span id="SPAN_769">(2)</span>
+														</label>
+														<div id="DIV_770">
+														</div>
+													</div>
+													<div id="DIV_771">
+
+														<label id="LABEL_772">
+															<input type="checkbox" name="sub_topics[]" value="1410" id="INPUT_773" /> <span id="SPAN_774">PureScript</span> <span id="SPAN_775">(1)</span>
+														</label>
+														<div id="DIV_776">
+														</div>
+													</div>
+													<div id="DIV_777">
+
+														<label id="LABEL_778">
+															<input type="checkbox" name="sub_topics[]" value="313" id="INPUT_779" /> <span id="SPAN_780">Ajax</span> <span id="SPAN_781">(3)</span>
+														</label>
+														<div id="DIV_782">
+														</div>
+													</div>
+													<div id="DIV_783">
+
+														<label id="LABEL_784">
+															<input type="checkbox" name="sub_topics[]" value="21" id="INPUT_785" /> <span id="SPAN_786">Node.js</span> <span id="SPAN_787">(1)</span>
+														</label>
+														<div id="DIV_788">
+														</div>
+													</div>
+													<div id="DIV_789">
+
+														<label id="LABEL_790">
+															<input type="checkbox" name="sub_topics[]" value="224" id="INPUT_791" /> <span id="SPAN_792">Raspberry Pi</span> <span id="SPAN_793">(1)</span>
+														</label>
+														<div id="DIV_794">
+														</div>
+													</div>
+													<div id="DIV_795">
+
+														<label id="LABEL_796">
+															<input type="checkbox" name="sub_topics[]" value="58" id="INPUT_797" /> <span id="SPAN_798">Gulp</span> <span id="SPAN_799">(1)</span>
+														</label>
+														<div id="DIV_800">
+														</div>
+													</div>
+													<div id="DIV_801">
+
+														<label id="LABEL_802">
+															<input type="checkbox" name="sub_topics[]" value="3" id="INPUT_803" /> <span id="SPAN_804">jQuery</span> <span id="SPAN_805">(1)</span>
+														</label>
+														<div id="DIV_806">
+														</div>
+													</div>
+													<div id="DIV_807">
+
+														<label id="LABEL_808">
+															<input type="checkbox" name="sub_topics[]" value="842" id="INPUT_809" /> <span id="SPAN_810">RxJS</span> <span id="SPAN_811">(1)</span>
+														</label>
+														<div id="DIV_812">
+														</div>
+													</div>
+												</div>
+												<div id="DIV_813">
+													<h3 id="H3_814">
+														Language
+													</h3>
+													<div id="DIV_815">
+
+														<label id="LABEL_816">
+															<input type="checkbox" name="languages[]" value="en" id="INPUT_817" /> <span id="SPAN_818">English</span> <span id="SPAN_819">(112)</span>
+														</label>
+														<div id="DIV_820">
+														</div>
+													</div>
+													<div id="DIV_821">
+
+														<label id="LABEL_822">
+															<input type="checkbox" name="languages[]" value="es" id="INPUT_823" /> <span id="SPAN_824">Español</span> <span id="SPAN_825">(8)</span>
+														</label>
+														<div id="DIV_826">
+														</div>
+													</div>
+													<div id="DIV_827">
+
+														<label id="LABEL_828">
+															<input type="checkbox" name="languages[]" value="ru" id="INPUT_829" /> <span id="SPAN_830">ру́сский язы́к</span> <span id="SPAN_831">(1)</span>
+														</label>
+														<div id="DIV_832">
+														</div>
+													</div>
+													<div id="DIV_833">
+
+														<label id="LABEL_834">
+															<input type="checkbox" name="languages[]" value="fr" id="INPUT_835" /> <span id="SPAN_836">Français</span> <span id="SPAN_837">(1)</span>
+														</label>
+														<div id="DIV_838">
+														</div>
+													</div>
+												</div>
+												<div id="DIV_839">
+													<h3 id="H3_840">
+														Exercises
+													</h3>
+													<div id="DIV_841">
+
+														<label id="LABEL_842">
+															<input type="checkbox" name="exercises" value="1" id="INPUT_843" /> <span id="SPAN_844">Exercises/Practice-programs</span> <span id="SPAN_845">(6)</span>
+														</label>
+														<div id="DIV_846">
+														</div>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+				</div>
+				<!-- flex-container -->
+
+			</div>
+		</div>
+	</div>
+</div>
     <div class="container">
 
 {% endblock %}

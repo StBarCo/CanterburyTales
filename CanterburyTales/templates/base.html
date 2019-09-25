@@ -3,6 +3,8 @@
 <html>
 <head>
 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     {% load static %}
 
 {# Load the tag library #}
@@ -12,7 +14,7 @@
 {# Load CSS and JavaScript #}
 {% bootstrap_css %}
 
-{% bootstrap_javascript jquery='full' %}
+{#{% bootstrap_javascript jquery='full' %}#}
 {{ form.media.css }}
 
 {# Display django.contrib.messages as Bootstrap alerts #}
@@ -20,23 +22,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Canterbury Trails</title>
-    {#    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>#}
+      <meta name="author" content="FatherChill">
 </head>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>Canterbury Trails</title>
-
-
-</head>
-
 <body>
 
   <!-- Navigation -->
@@ -54,6 +41,9 @@
           <li class="nav-item">
             <a class="nav-link" href={% url 'courses:create' %}>Share Course</a>
           </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{%  url 'profile:my_profile' slug=user.username %}"><i class="material-icons">face</i></a>
+            </li>
         </ul>
       </div>
     </div>

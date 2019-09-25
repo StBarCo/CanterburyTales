@@ -33,7 +33,7 @@ class DetailView(generic.DetailView):
 class CourseCreate(FormView):
     template_name = 'courses/course_form.html'
     form_class = CourseForm
-    success_url = '/thanks/'
+    success_url = '/'
 
     def form_valid(self, form):
         # data = form.clean_author()
