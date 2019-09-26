@@ -12,67 +12,7 @@
 
     <div class="row">
         <div class="col-md-4 order-md-2 mb-4">
-            <div class="boxed sidebar-box">
-                <h3 class="title section-title">Recently Verified</h3>
-                <ul class="sidebar-services-list">
-                    <li class="service is-small">
-
-                        Email on Acid
-                    </li>
-                    <li class="service is-small">
-
-                        TickCounter
-                    </li>
-                    <li class="service is-small">
-
-                        Percy
-                    </li>
-                    <li class="service is-small">
-
-                        Jostle
-                    </li>
-
-                </ul>
-            </div>
-
-
-        </div>
-        <div class="col-md-8 order-md-1">
-            <div class="row">
-                <div class="level-item">
-                    <div class="">
-                        <h1 class="title">New and Popular Courses</h1>
-                    </div>
-                </div>
-            </div>
-            {% if courses %}
-                                    <div class="card-deck">
-
-                {% for course in courses %}
-                    <div class="row mt-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ course.title }}</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                of the card's content.</p>
-                            <a href="{% url 'courses:detail' course.id %}" class="btn btn-primary">Explore</a>
-                        </div>
-                    </div>
-                    </div>
-
-                {% endfor %}
-                                    </div>
-
-            {% else %}
-                <p>No courses are available</p>
-            {% endif %}
-
-
-        </div>
-
-    </div>
-    <div class="hackr-widget" data-tutorial="learning-python-with-pycharm" data-type="1"></div><script src="https://hackr.io/widget.js?v=1.0"></script>
-					<div id="DIV_694">
+            <div id="DIV_694">
 							<div id="DIV_695">
 								<div id="DIV_696">
 									<div id="DIV_697">
@@ -298,6 +238,54 @@
 
 							</div>
 						</div>
+
+
+        </div>
+        <div class="col-md-8 order-md-1">
+            <div class="row bg-white border rounded-top" style="border: 1px solid rgba(0,0,0,.125);">
+                <div class="level-item">
+                    <div class="">
+                        <h1 class="title">New and Popular Courses</h1>
+                    </div>
+                </div>
+            </div>
+            {% if courses %}
+                                    <div class="">
+
+                {% for course in courses %}
+                    <div class="row bg-white py-3 px-3" style="border: 1px solid rgba(0,0,0,.125);">
+                    <div class="col-sm-auto">
+                        <div " >
+                        <a href="" target="_blank" class="vote-btn ">
+                            <div class="d-inline align-middle"><i class="material-icons medium">arrow_drop_up</i></div>
+                        <h5 class="count mt-0">24</h5>
+                        </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md" >
+                        <div class="">
+                            <h5 class="">{{ course.title }}</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                            <a href="{% url 'courses:detail' course.id %}" class="btn btn-primary">Explore</a>
+                        </div>
+                    </div>
+                    </div>
+
+                {% endfor %}
+                                    </div>
+
+            {% else %}
+                <p>No courses are available</p>
+            {% endif %}
+
+    <div class="hackr-widget" data-tutorial="learning-python-with-pycharm" data-type="1"></div><script src="https://hackr.io/widget.js?v=1.0"></script>
+
+        </div>
+
+    </div>
+
 				</div>
 				<!-- flex-container -->
 

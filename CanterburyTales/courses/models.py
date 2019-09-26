@@ -35,6 +35,7 @@ class Course(models.Model):
     audience = models.ManyToManyField(Audience)
     lesson_length = models.IntegerField(null=True)
     upvotes = models.ManyToManyField(Profile, related_name='upvotes', default=0)
+    views = models.IntegerField(default=0)
 
 
 

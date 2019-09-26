@@ -14,7 +14,7 @@
 {# Load CSS and JavaScript #}
 {% bootstrap_css %}
 
-{#{% bootstrap_javascript jquery='full' %}#}
+{% bootstrap_javascript jquery='full' %}
 {{ form.media.css }}
 
 {# Display django.contrib.messages as Bootstrap alerts #}
@@ -24,7 +24,7 @@
     <title>Canterbury Trails</title>
       <meta name="author" content="FatherChill">
 </head>
-<body>
+<body class="bg-light">
 
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
