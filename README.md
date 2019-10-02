@@ -77,3 +77,10 @@ Uses Bootstrap4 via the django-bootstrap4 plugin, and also material icons.
 
 
 
+## General Deploy Notes for Django (Deploying to Google Cloud)
++ Change USE_CLOUD_PROXY => True, start proxy server and run any migrations (manage.py makemigrations + migrate)
++ Organize any new static files (manage.py collectstatic)
++ Deploy to cloud (gcloud app deploy)
+
+
+
