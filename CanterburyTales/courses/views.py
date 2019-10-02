@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django import forms
 from .forms import CourseForm
 import datetime
-from .models import Course, Profile, User, Audience, Tag
+from .models import Course, Profile, User, Tag
 
 
 class IndexView(generic.ListView):

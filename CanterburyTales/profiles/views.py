@@ -31,7 +31,7 @@ def signup(request):
     })
 
 
-class MyProfileView(LoginRequiredMixin, generic.DetailView):
+class DetailView(generic.DetailView):
     model = User
     template_name = 'profile/detail.html'
     slug_field = 'username'

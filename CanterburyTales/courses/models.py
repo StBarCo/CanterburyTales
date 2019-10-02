@@ -5,18 +5,10 @@ from django.dispatch import receiver
 from django.utils import timezone
 from django.contrib.auth.models import User
 from CanterburyTales.profiles.models import Profile
+from django.contrib.postgres.fields import IntegerRangeField
 
 
 class Tag(models.Model):
-    title = models.CharField(max_length=50)
-    description = models.CharField(max_length=200, blank=True, null=True)
-
-    def __str__(self):
-        """String for representing the MyModelName object (in Admin site etc.)."""
-        return self.title
-
-
-class Audience(models.Model):
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=200, blank=True, null=True)
 
@@ -32,7 +24,7 @@ class Course(models.Model):
     posted = models.DateField(null=True, )
     description = models.TextField()
     tags = models.ManyToManyField(Tag)
-    audience = models.ManyToManyField(Audience)
+    audience = IntegerRangeField()
     lesson_length = models.IntegerField(null=True)
     upvotes = models.ManyToManyField(Profile, related_name='upvotes', default=0)
     views = models.IntegerField(default=0)

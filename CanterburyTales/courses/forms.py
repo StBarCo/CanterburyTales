@@ -1,6 +1,6 @@
 from django import forms
 from django_select2.forms import Select2MultipleWidget
-from CanterburyTales.courses.models import Course, Audience, Tag, Profile
+from CanterburyTales.courses.models import Course, Tag, Profile
 
 
 class CourseForm(forms.ModelForm):
@@ -27,14 +27,8 @@ class CourseForm(forms.ModelForm):
 
         self.base_fields['tags'] = forms.ModelMultipleChoiceField(queryset=Tag.objects.all().order_by('title'),
                                                                   widget=Select2MultipleWidget)
-        self.base_fields['audience'] = forms.ModelMultipleChoiceField(queryset=Audience.objects.all(),
-                                                                      widget=Select2MultipleWidget)
-
-
-class AudienceForm(forms.ModelForm):
-    class Meta:
-        model = Audience
-        fields = ['title', 'description']
+        # self.base_fields['audience'] = forms.ModelMultipleChoiceField(queryset=Audience.objects.all(),
+        #                                                               widget=Select2MultipleWidget)
 
 
 class TagForm(forms.ModelForm):

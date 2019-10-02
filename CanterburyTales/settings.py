@@ -25,7 +25,7 @@ SECRET_KEY = '(#(+oow!_cm97nmc36fvzr*=kt(00d-*of6e##jhat39=(0h*a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'localflavor',
     'bootstrap4',
     'django_select2',
     'CanterburyTales.courses.apps.CoursesConfig',
@@ -78,17 +77,50 @@ WSGI_APPLICATION = 'CanterburyTales.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'canterburytales',
-        'USER': 'cramner',
-        'PASSWORD': '1949PrayerBook',
-        'HOST': 'localhost',
-        'PORT': '5432'
+USE_CLOUD_PROXY = False
+# Running  Cloud SQL via the proxy. To start the proxy via command line:
+#   ./ cloud_sql_proxy -instances=canterburytales:us-central1:canterburytales=tcp:3306
 
+if os.getenv('GAE_APPLICATION', None):
+    # Running on production App Engine, so connect to Google Cloud SQL using
+    # the unix socket at /cloudsql/<your-cloudsql-connection string>
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'HOST': '/cloudsql/canterburytales:us-central1:canterburytales',
+            'USER': 'postgres',
+            'PASSWORD': '2sFs2PjrKBBzrOj0',
+            'NAME': 'CanterburyTales',
+        }
     }
-}
+else:
+    if USE_CLOUD_PROXY:
+        # Running  Cloud SQL via the proxy. To start the proxy via command line:
+        #   ./ cloud_sql_proxy -instances=canterburytales:us-central1:canterburytales=tcp:3306
+        #
+        # See https://cloud.google.com/sql/docs/mysql-connect-proxy
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'HOST': '127.0.0.1',
+                'PORT': '3306',
+                'USER': 'postgres',
+                'PASSWORD': '2sFs2PjrKBBzrOj0',
+                'NAME': 'CanterburyTales',
+            }
+        }
+    else:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': 'canterburytales',
+                'USER': 'cramner',
+                'PASSWORD': '1949PrayerBook',
+                'HOST': 'localhost',
+                'PORT': '5432'
+            }
+        }
+# [END db_setup]
 
 
 # Password validation
@@ -134,8 +166,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 LOGIN_REDIRECT_URL = 'courses:index'
 LOGOUT_REDIRECT_URL = 'courses:index'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
+
