@@ -1,23 +1,76 @@
 {% extends "base.html" %}
 {% load bootstrap4 %}
-{{ form.media.css }}
-
-{% block content %}
-
-        <div class="container">
-
-    <form role="form" method="post">
-        {% csrf_token %}
-{#    {{ form.as_ul}}#}
-        {% bootstrap_form form %}
-        {% buttons %}
-    <button type="submit" class="btn btn-primary">
-      Submit
-    </button>
-  {% endbuttons %}
-    </form>
-        </div>
-        {{ form.media.js }}
+{% load custom_tags %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/css/bootstrap-slider.min.css"/>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js"></script>
+    <script type="text/javascript" src="{% static "courses/script.js" %}"></script>
 
 {% endblock %}
 
+{% block content %}
+    <div class="container">
+        <form role="form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {#    {{ form.as_ul}}#}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">
+                    Submit
+                </button>
+            {% endbuttons %}
+        </form>
+    </div>
+    {{ form.media.js }}
+    <div id='audience_titles'><span id="audience_lower"></span> through <span id="audience_upper"></span></div>
+    <div id='slider_container'>
+        <div id='audience_slider'></div>
+    </div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+    var $audience = {% autoescape off %}{% audience_map %}{% endautoescape %};
+    var $audience_special = {% autoescape off %}{% audience_special_map %}{% endautoescape %};
+    var $ages = {% audience_breakpoints %}
+
+    $( document ).ready(function() {
+    $("#id_audience_0, #id_audience_1").hide();
+    $("#audience_titles").appendTo( $("#id_audience_0").parent() );
+    $("#slider_container").appendTo( $("#id_audience_0").parent() );
+    var $a_slider = createAudienceSlider($('#audience_slider'), $ages, initial=[18,65], enabled=true)
+
+    setElements([18,65]);
+
+    $a_slider.on("slide", function (slideEvt) {
+        setElements($('#audience_slider').val());
+    });
+
+    function setElements(value_array) {
+        $("#audience_titles").text(getTitles(value_array, $audience_special, $audience));
+        document.getElementById("id_audience_0").value = $('#audience_slider').val()[0]
+        document.getElementById("id_audience_1").value = $('#audience_slider').val()[1]
+    }
+
+
+
+
+    });
+
+{% endblock %}
+
+
+ $a_slider.on("slide", function(slideEvt) {
+    $("#audience_titles").text(slideEvt.value);
+
+    $t = getTitles($('#audience_slider').val(), $audience_special, $audience);
+
+    $("#audience_titles").text($t);
+
+        document.getElementById("#id_audience_0").value = $('#audience_slider').val()[0]
+        document.getElementById("#id_audience_1").value = $('#audience_slider').val()[1]
+    });

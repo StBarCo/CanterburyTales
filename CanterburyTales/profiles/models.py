@@ -11,7 +11,7 @@ def content_file_name(instance, filename):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, null=True, on_delete=models.SET_NULL)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, blank=True, null=True)
     org_name = models.CharField(max_length=100, blank=True, null=True)
     city = models.CharField(max_length=50, null=True)

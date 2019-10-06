@@ -1,66 +1,71 @@
 {# HTML5 declaration #}
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-    {% load static %}
+        {# Load the tag library #}
+        {% load bootstrap4 %}
 
-{# Load the tag library #}
-{% load bootstrap4 %}
-            <link rel="stylesheet" type="text/css" href="{% static 'courses/style.css' %}">
+        {# Load CSS and JavaScript #}
+        {% bootstrap_css %}
+        {% bootstrap_javascript jquery='full' %}
+        {{ form.media.css }}
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
+        {% load static %}
 
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
 
-{% bootstrap_javascript jquery='full' %}
-{{ form.media.css }}
+        {# Display django.contrib.messages as Bootstrap alerts #}
+        {% bootstrap_messages %}
+        {% block extra_head %}
+        {% endblock %}
+        <link rel="stylesheet" type="text/css" href="{% static 'courses/style.css' %}">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Canterbury Trails</title>
+        <meta name="author" content="FatherChill">
+    </head>
+    <body class="bg-light">
 
-{# Display django.contrib.messages as Bootstrap alerts #}
-{% bootstrap_messages %}
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Canterbury Trails</title>
-      <meta name="author" content="FatherChill">
-</head>
-<body class="bg-light">
-
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-    <div class="container">
-      <a class="navbar-brand" href={% url 'courses:index' %}>Canterbury Trails</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+        <a class="navbar-brand" href={% url 'courses:index' %}>Canterbury Trails</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href={% url 'courses:create' %}>Share Course</a>
-          </li>
-            <li class="nav-item">
-                    {% if user.is_authenticated %}
-<a class="nav-link" href="{%  url 'profile:detail' slug=user.username %}"><i class="material-icons">face</i></a>
-{% else %}
-<a class="nav-link" href="{% url 'login' %}"><i class="material-icons">face</i></a>
-{% endif %}
+        <li class="nav-item">
+        <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href={% url 'courses:create' %}>Share Course</a>
+        </li>
+        <li class="nav-item">
+                {% if user.is_authenticated %}
+        <a class="nav-link" href="{%  url 'profile:detail' slug=user.username %}"><i class="material-icons">face</i></a>
+        {% else %}
+        <a class="nav-link" href="{% url 'login' %}"><i class="material-icons">face</i></a>
+        {% endif %}
 
-            </li>
+        </li>
         </ul>
-      </div>
-    </div>
-  </nav>
+        </div>
+        </div>
+        </nav>
 
-  <!-- Page Content -->
-    {% block content %}
+        <!-- Page Content -->
+
+        {% block content %}
         if you see this something is terribly wrong
-    {% endblock content %}
+        {% endblock content %}
 
 
-{{ form.media.js }}
-</body>
-
+        {{ form.media.js }}
+        <script>
+            {% block extra_js %}
+            {% endblock %}
+        </script>
+    </body>
 </html>

@@ -22,8 +22,8 @@ Uses Bootstrap4 via the django-bootstrap4 plugin, and also material icons.
 ## To-Do
 #### Course
 ##### #index
-- [ ] Chage the field Course.audience to be an Integer Range.
-- [ ] Style age range slider and add JS to display readable ages: [0: 0, 4: Pre-K, 5: Kindergarten.... 15-18: High School... Etc]
+- [X] Chage the field Course.audience to be an Integer Range.
+- [X] Style age range slider and add JS to display readable ages: [0: 0, 4: Pre-K, 5: Kindergarten.... 15-18: High School... Etc]
       e.g. a slider from 15-60 would have readable display "High Shool through Adults" or similar.
 
 - [ ] Complete styling for Course.index view (especially course list and filters) based on 
@@ -38,7 +38,7 @@ Uses Bootstrap4 via the django-bootstrap4 plugin, and also material icons.
 - [ ] Imitate the welcome banner of http://hackr.io. Canterbury tales is... Here's how it works...
 
 ##### #new/edit
-- [ ] Implement the age range slider for course creation.
+- [X] Implement the age range slider for course creation.
 - [ ] Add appropriate div container and formatting.
 - [ ] Show files input and impletent file storage and zipping multiples(?)
 - [ ] Create good way for user to seamlessly create new tags while selecting.
@@ -56,7 +56,6 @@ Uses Bootstrap4 via the django-bootstrap4 plugin, and also material icons.
 
 ##### #edit
 - [ ] Make edit page (inline editing of profile page?) or reuse signup form.
-
 
 #### User
 - [ ] Add forgot password function(?).

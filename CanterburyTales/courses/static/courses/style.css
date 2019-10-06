@@ -20,6 +20,27 @@ body {
 
 }
 
+.slider.slider-horizontal{
+    width: 100%;
+    max-width: 500px;
+}
+
+.slider-tick{
+    width: 4px;
+    margin-left: -2px !important;
+}
+
+#audience_titles{
+    display: inline-block;
+    margin-left: 10px;
+    font-size: .75rem;
+    font-weight: bold;
+}
+
+.select2-container{
+    display: inline;
+}
+
 img.avatar {
   border: 1px solid #eee;
 }
