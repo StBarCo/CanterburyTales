@@ -8,7 +8,9 @@ from django.urls import reverse_lazy
 from django import forms
 from .forms import CourseForm
 import datetime
-from .models import Course, Profile, User, Tag
+from .models import Course, Profile, User, Tag, CourseFile
+import zipfile
+import os
 
 
 class IndexView(generic.ListView):
@@ -36,12 +38,15 @@ class CourseCreate(FormView):
     success_url = '/'
 
     def form_valid(self, form):
-        # data = form.clean_author()
         course = form.save(commit=False)
         course.author = Profile.objects.all().first()
         course.posted = datetime.date.today()
         course.save()
         form.save_m2m()
+
+        for f in form.files.getlist('course_files'):
+            CourseFile.objects.create(file=f, course=course)
+
         return super().form_valid(form)
 
 
@@ -53,3 +58,4 @@ class CourseUpdate(UpdateView):
 class CourseDelete(DeleteView):
     model = Course
     # success_url = reverse_lazy('courses')
+

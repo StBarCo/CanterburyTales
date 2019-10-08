@@ -1,12 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.utils import timezone
 from django.contrib.auth.models import User
 from CanterburyTales.profiles.models import Profile
 from django.contrib.postgres.fields import IntegerRangeField
-from os import path
+import os
 
 
 class Tag(models.Model):
@@ -16,6 +14,14 @@ class Tag(models.Model):
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
         return self.title
+
+
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/uploads/courses/username/datetime/<filename>
+    user_n = instance.course.author.user.username
+    course_title = ''.join(e for e in instance.course.title[:15] if e.isalnum())
+
+    return os.path.join('courses', user_n, course_title, filename)
 
 
 class Course(models.Model):
@@ -30,7 +36,15 @@ class Course(models.Model):
     duration = models.DurationField(null=True, default=30)
     upvotes = models.ManyToManyField(Profile, related_name='upvotes', default=0)
     views = models.IntegerField(default=0)
-    files = models.FileField(upload_to='courses/')
+
+    def __str__(self):
+        """String for representing the MyModelName object (in Admin site etc.)."""
+        return self.title
+
+
+class CourseFile(models.Model):
+    file = models.FileField(upload_to=user_directory_path)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
 
 class Audience:

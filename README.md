@@ -64,6 +64,8 @@ Uses Bootstrap4 via the django-bootstrap4 plugin, and also material icons.
 #### General
 - [ ] use templates well
 - [ ] Add better style to header /template/base.html
+- [ ] Add slug fields to course and profile and reformat urls
+- [ ] Storage -- Use Google cloud storage if using proxy cloud db or deployed.
 
 #### Permissions
 - [ ] implement all permissions

@@ -8,7 +8,7 @@
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js"></script>
     <script type="text/javascript" src="{% static "courses/script.js" %}"></script>
-
+    {{ form.media.css }}
 {% endblock %}
 
 {% block content %}
@@ -17,6 +17,7 @@
             {% csrf_token %}
             {#    {{ form.as_ul}}#}
             {% bootstrap_form form %}
+
             {% buttons %}
                 <button type="submit" class="btn btn-primary">
                     Submit
@@ -55,22 +56,8 @@
         document.getElementById("id_audience_0").value = $('#audience_slider').val()[0]
         document.getElementById("id_audience_1").value = $('#audience_slider').val()[1]
     }
-
-
-
-
     });
+
+
 
 {% endblock %}
-
-
- $a_slider.on("slide", function(slideEvt) {
-    $("#audience_titles").text(slideEvt.value);
-
-    $t = getTitles($('#audience_slider').val(), $audience_special, $audience);
-
-    $("#audience_titles").text($t);
-
-        document.getElementById("#id_audience_0").value = $('#audience_slider').val()[0]
-        document.getElementById("#id_audience_1").value = $('#audience_slider').val()[1]
-    });

@@ -1,9 +1,10 @@
 from django import forms
 from django_select2.forms import Select2MultipleWidget
-from CanterburyTales.courses.models import Course, Tag, Profile, Audience
+from CanterburyTales.courses.models import Course, Tag, Profile, CourseFile
 
 
 class CourseForm(forms.ModelForm):
+
     class Meta:
         model = Course
         fields = [
@@ -14,16 +15,9 @@ class CourseForm(forms.ModelForm):
             'count',
             'duration',
             'description',
-            'files',
-
-            # 'author',
-            # 'posted',
         ]
         widgets = {
-            'files': forms.ClearableFileInput(attrs={'multiple': True}),
-            # 'author': forms.HiddenInput(),
-            # 'posted': forms.HiddenInput(),
-            # 'audience': forms.TextInput(),
+            # 'course_files': forms.FileInput(attrs={'multiple': True})
         }
         labels = {
             'duration': 'Lesson Duration (minutes)',
@@ -32,25 +26,13 @@ class CourseForm(forms.ModelForm):
 
         }
 
+    course_files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
     def __init__(self, *args, **kwargs):
         course = kwargs.pop('course', '')
         super(CourseForm, self).__init__(*args, **kwargs)
-
         self.base_fields['tags'] = forms.ModelMultipleChoiceField(queryset=Tag.objects.all().order_by('title'),
                                                                   widget=Select2MultipleWidget)
-        # self.base_fields['audience'] = forms.IntegerField(
-        #     widget=forms.NumberInput(attrs={
-        #         'type': 'range',
-        #         'data-provide': 'slider',
-        #         'data-slider-ticks': list(Audience().get_definitions().keys()),
-        #         'data-slider-ticks-labels': list(Audience().get_definitions().values()),
-        #         'data-slider-tooltip': 'hide',
-        #         'data-slider-lock-to-ticks': '1',
-        #         'data-slider-min': '0',
-        #         'data-slider-max': '65',
-        #         'data-slider-value': '[18, 65]'
-        #     })
-        # )
 
 
 class TagForm(forms.ModelForm):
@@ -70,4 +52,3 @@ class ProfileForm(forms.ModelForm):
             'about',
             'pic'
         ]
-
