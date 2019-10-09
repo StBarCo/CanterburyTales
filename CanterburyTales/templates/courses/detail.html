@@ -44,7 +44,8 @@
                                 </div>
                                 <div>
                                     {% for file in course.coursefile_set.all %}
-                                        <div>{{ file.file.url }}</div>
+                                        <a href="{{ file.file.url }}" alt="Download">Download {{ file.file }}</a>
+                                        <div></div>
                                     {% endfor %}
                                 </div>
                             </div>

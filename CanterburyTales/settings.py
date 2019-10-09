@@ -13,14 +13,14 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 from google.oauth2 import service_account
 
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    "/credentials.json"
-)
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR, 'CanterburyTales/CanterburyTales.json')
+)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'CanterburyTales.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-USE_CLOUD_PROXY = True
+USE_CLOUD_PROXY = False
 # Running  Cloud SQL via the proxy. To start the proxy via command line:
 #   ./ cloud_sql_proxy -instances=canterburytales:us-central1:canterburytales=tcp:3306
 
