@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from CanterburyTales.profiles.models import Profile
 from django.contrib.postgres.fields import IntegerRangeField
 import os
+import math
+import datetime
 
 
 class Tag(models.Model):
@@ -34,12 +36,61 @@ class Course(models.Model):
     audience = IntegerRangeField()
     count = models.IntegerField(default=1)
     duration = models.DurationField(null=True, default=30)
-    upvotes = models.ManyToManyField(Profile, related_name='upvotes', default=0)
+    upvotes = models.ManyToManyField(Profile, related_name='upvotes', blank=True)
     views = models.IntegerField(default=0)
 
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
         return self.title
+
+    def audience_description(self):
+        return Audience().get_description(self.audience.lower, self.audience.upper)
+
+    def views_humanized(self):
+        return humanized_count(self.views)
+
+    def posted_humanized(self):
+        return humanized_duration(datetime.date.today(), self.posted)
+
+    def add_view(self):
+        self.views = self.views + 1
+        self.save()
+
+
+
+def humanized_count(i):
+    if i <= 10:
+        return str(i)
+    elif i <= 200:
+        return str(math.floor(i / 10) * 10) + '+'
+    elif i <= 1000:
+        return str(math.floor(i / 100) * 100) + '+'
+    elif i <= 10000:
+        return str(math.floor(i / 1000) * 1000) + '+'
+    elif i <= 100000:
+        return str(math.floor(i / 10000) * 10000) + '+'
+    elif i <= 1000000:
+        return str(math.floor(i / 100000) * 100000) + '+'
+    elif i > 1000000:
+        return str(math.floor(i / 1000000)) + ' million +'
+    else:
+        return str(i)
+
+
+def humanized_duration(newer_date, older_date):
+    days = (newer_date - older_date).days
+    if days == 0:
+        return 'Today'
+    if days == 1:
+        return 'Yesterday'
+    if days < 30:
+        return str(days) + ' days ago'
+    elif days < 50:
+        return '1 month'
+    elif days < 365*2:
+        return str(math.floor(days/(365/12))) + ' months ago'
+    else:
+        return  str(math.floor(days/365)) + ' years ago'
 
 
 class CourseFile(models.Model):
@@ -93,7 +144,19 @@ class Audience:
     def get_definitions(self):
         return self.definitions
 
+    def get_definition(self, n):
+        return self.definitions[n]
+
     def get_special_definitions(self):
         return self.special
 
-#     overlap test: max(start1, start2) < min(end1, end2)
+    def get_special_definition(self, s):
+        if s in self.special:
+            return self.special[s]
+        return False
+
+    def get_description(self, lower, upper):
+        description = self.get_special_definition(str(lower) + ',' + str(upper))
+        if not description:
+            description = self.get_definition(lower) + ' through ' + self.get_definition(upper)
+        return description

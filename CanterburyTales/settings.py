@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from google.oauth2 import service_account
+
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    "/credentials.json"
+)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(#(+oow!_cm97nmc36fvzr*=kt(00d-*of6e##jhat39=(0h*a'
+SECRET_KEY = '(#(+oEGX3JDpjhat396S4RVH^z$#kbM@060*of6e#97nmc36fvzr*=kt#=(0h*a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -77,7 +82,7 @@ WSGI_APPLICATION = 'CanterburyTales.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-USE_CLOUD_PROXY = False
+USE_CLOUD_PROXY = True
 # Running  Cloud SQL via the proxy. To start the proxy via command line:
 #   ./ cloud_sql_proxy -instances=canterburytales:us-central1:canterburytales=tcp:3306
 
@@ -170,6 +175,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 LOGIN_REDIRECT_URL = 'courses:index'
 LOGOUT_REDIRECT_URL = 'courses:index'
-MEDIA_URL = '/media/'
+
+MEDIA_URL = '/content/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
+
+if os.getenv('GAE_APPLICATION', None) or USE_CLOUD_PROXY:
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    GS_BUCKET_NAME = 'canterburytales.appspot.com'
 

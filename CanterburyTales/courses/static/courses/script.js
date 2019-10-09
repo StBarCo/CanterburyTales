@@ -22,7 +22,6 @@ function createAudienceSlider(item, breakpoints, initial = [18, 65], enabled = t
         value: initial,
         enabled: enabled,
     })
-
 }
 
 

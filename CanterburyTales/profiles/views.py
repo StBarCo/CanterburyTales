@@ -36,4 +36,3 @@ class DetailView(generic.DetailView):
     template_name = 'profile/detail.html'
     slug_field = 'username'
 
-
