@@ -24,16 +24,17 @@ Uses Bootstrap4 via the django-bootstrap4 plugin, and also material icons.
 ##### #index
 - [X] Chage the field Course.audience to be an Integer Range.
 - [X] Style age range slider and add JS to display readable ages: [0: 0, 4: Pre-K, 5: Kindergarten.... 15-18: High School... Etc]
-      e.g. a slider from 15-60 would have readable display "High Shool through Adults" or similar.
+      e.g. a slider from 15-60 would have readable display "High School through Adults" or similar.
 
 - [ ] Complete styling for Course.index view (especially course list and filters) based on 
       https://hackr.io/tutorials/learn-python 
-- [ ] Add AJAX calls to filter course list.
-
+- [ ] Add AJAX calls to filter course list/just POST/reload?
+- [ ] Search URL pattern: /search/{ages}/{tags}/{search-phrase}(optional)
+    - e.g. /serach/0-18/Confirmation&Bible&Jesus/video-illustrations
 - [ ] Add search bar and function to search course title, description and tags.
 
 - [ ] Extract the course list into its own template so that it can be used to also list all of a User's shared courses and upboted courses (to templates/courses/course_list.html)
-- [ ] Create AJAX call for new upovte.
+- [X] Create AJAX call for new upovte (implemented as non-ajax)
 
 - [ ] Imitate the welcome banner of http://hackr.io. Canterbury tales is... Here's how it works...
 
@@ -69,9 +70,9 @@ Uses Bootstrap4 via the django-bootstrap4 plugin, and also material icons.
 
 #### Permissions
 - [ ] implement all permissions
-- [ ] logged out: view all users (not emails) and all courses. Propmted to login/create account on upvote or download.
-- [ ] logged in: Same as logged out, but can upvote/download. Also can edit own profile and own courses (eventually can comment)
-- [ ] editor: Same as logged in, but can... um... ban users? Not sure.
+    - [ ] logged out: all courses. Propmted to login/create account, upvote or download. - Show popup prompt to register.
+    - [ ] logged in: View courses and profiles, but can upvote/download. Also can edit own profile and own courses (eventually can comment)
+    - [ ] editor: Same as logged in, but can... um... ban users? Not sure.
 
 ### Beautification
 - [ ] general beautification

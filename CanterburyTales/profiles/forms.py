@@ -39,7 +39,6 @@ class ProfileForm(forms.ModelForm):
         widget=forms.Textarea
     )
 
-
     class Meta:
         model = Profile
-        fields = ('org_name', 'title', 'city', 'state', 'about', 'pic')
+        fields = ('org_name', 'title', 'city', 'state', 'about')
