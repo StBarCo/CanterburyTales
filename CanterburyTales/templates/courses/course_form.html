@@ -9,6 +9,8 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js"></script>
     <script type="text/javascript" src="{% static "courses/script.js" %}"></script>
     {{ form.media.css }}
+    {{ form.media.js }}
+
 {% endblock %}
 
 {% block content %}
@@ -25,7 +27,6 @@
             {% endbuttons %}
         </form>
     </div>
-    {{ form.media.js }}
     <div id='audience_titles'><span id="audience_lower"></span> through <span id="audience_upper"></span></div>
     <div id='slider_container'>
         <div id='audience_slider'></div>
@@ -35,6 +36,7 @@
 
 
 {% block extra_js %}
+
     var $audience = {% autoescape off %}{% audience_map %}{% endautoescape %};
     var $audience_special = {% autoescape off %}{% audience_special_map %}{% endautoescape %};
     var $ages = {% audience_breakpoints %}

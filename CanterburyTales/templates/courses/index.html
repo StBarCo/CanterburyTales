@@ -7,37 +7,37 @@
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js"></script>
     <script type="text/javascript" src="{% static "courses/script.js" %}"></script>
+
 {% endblock %}
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col-md-4 order-md-2 mb-4">
-                <div id="DIV_694">
-                    <div id="DIV_695">
-                        <div id="DIV_696">
-                            <div id="DIV_697">
-                                <div id="DIV_698">
-                                    <div id="DIV_699">
-                                        <h3 id="H3_700">
-                                            filter courses
-                                        </h3>
-                                    </div>
-                                </div>
-                                <div id="DIV_701">
-                                        <div id="DIV_703">
-                                            <h3 id="H3_704">
-                                                Coming Soon!
-                                            </h3>
-
-                                        </div>
-                                </div>
-                            </div>
+            <div class="col-md-4 order-md-2 mb-4 pr-0" id="filter_column">
+                <div class="accordion">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Filter Courses
+                                </button>
+                            </h2>
                         </div>
 
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                                quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it
+                                squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+                                craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
+                                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
+                                nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-
             </div>
             <div class="col-md-8 order-md-1">
                 <div class="row bg-white border rounded-top" style="border: 1px solid rgba(0,0,0,.125);">
@@ -54,8 +54,10 @@
                             <div class="row bg-white py-3 px-3" style="border: 1px solid rgba(0,0,0,.125);">
                                 <div class="col-sm-auto">
                                     <div>
-                                        <a href="{%  url 'courses:upvote' course.id %}" class="vote-btn ">
-                                            <div class="d-inline align-middle"><img src="{% static "courses/caret-up.svg" %}" alt="Upvote" class='upvote_carat'></i>
+                                        <a href="{% url 'courses:upvote' course.id %}" class="vote-btn ">
+                                            <div class="d-inline align-middle"><img
+                                                    src="{% static "courses/caret-up.svg" %}" alt="Upvote"
+                                                    class='upvote_carat'></img>
                                             </div>
                                             <h5 class="upvote_count mt-0">{{ course.upvotes.count }}</h5>
                                         </a>
@@ -65,26 +67,29 @@
                                 <div class="col-md">
                                     <div class="row">
                                         <div class="col-auto mr-auto pl-0">
-                                            <a href="{% url 'courses:detail' course.id %}"><h5 class="">{{ course.title }}</h5></a>
+                                            <a href="{% url 'courses:detail' course.id %}"><h5
+                                                    class="">{{ course.title }}</h5></a>
                                             <h6>
-                                            {% for tag in course.tags.all %}
-                                                <span class="badge badge-secondary">{{ tag.title }}</span>
-                                            {% endfor %}
+                                                {% for tag in course.tags.all %}
+                                                    <span class="badge badge-secondary">{{ tag.title }}</span>
+                                                {% endfor %}
                                             </h6>
 
                                         </div>
                                         <div class="col-4">
-{#                                        </div>#}
+                                            {#                                        </div>#}
                                             {#                                        <div class="col-4">#}
                                             <div id='slider_container'>
-                                                <div class='audience_slider' data-slider="[{{ course.audience.lower }}, {{ course.audience.upper }}]"></div>
+                                                <div class='audience_slider'
+                                                     data-slider="[{{ course.audience.lower }}, {{ course.audience.upper }}]"></div>
                                             </div>
                                             <div class='audience_titles text-center'>{{ course.audience_description }}</div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <p class="small text-muted">Submitted by {{ course.author }} | {{ course.posted_humanized }} | {{ course.views_humanized }} views</p>
-{#                                        <p class="card-text">{{ course.description|truncatechars:90 }}</p>#}
+                                        <p class="small text-muted">Submitted by {{ course.author }}
+                                            | {{ course.posted_humanized }} | {{ course.views_humanized }} views</p>
+                                        {#                                        <p class="card-text">{{ course.description|truncatechars:90 }}</p>#}
 
                                     </div>
                                 </div>
@@ -98,11 +103,10 @@
                 {% endif %}
 
 
+            </div>
 
         </div>
-
-    </div>
-    <!-- flex-container -->
+        <!-- flex-container -->
 
     </div>
     </div>
@@ -119,16 +123,16 @@
 
     $( document ).ready(function() {
 
-        $( ".audience_slider" ).each(function( index ) {
-            $(this).bootstrapSlider({
-            range: true,
-            min: 0,
-            max: 65,
-            lock_to_ticks: true,
-            id: index,
-            value: $(this).data('slider'),
-            enabled: false,
-        });
+    $( ".audience_slider" ).each(function( index ) {
+    $(this).bootstrapSlider({
+    range: true,
+    min: 0,
+    max: 65,
+    lock_to_ticks: true,
+    id: index,
+    value: $(this).data('slider'),
+    enabled: false,
+    });
     });
 
 

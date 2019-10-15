@@ -57,7 +57,6 @@ class Course(models.Model):
         self.save()
 
 
-
 def humanized_count(i):
     if i <= 10:
         return str(i)
