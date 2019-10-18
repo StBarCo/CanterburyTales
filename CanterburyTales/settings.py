@@ -82,9 +82,9 @@ WSGI_APPLICATION = 'CanterburyTales.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-USE_CLOUD_PROXY = False
+USE_CLOUD_PROXY = True
 # Running  Cloud SQL via the proxy. To start the proxy via command line:
-#   ./ cloud_sql_proxy -instances=canterburytales:us-central1:canterburytales=tcp:3306
+#   ./cloud_sql_proxy -instances=canterburytales:us-central1:canterburytales=tcp:3306
 
 if os.getenv('GAE_APPLICATION', None):
     # Running on production App Engine, so connect to Google Cloud SQL using

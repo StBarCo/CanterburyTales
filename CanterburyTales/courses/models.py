@@ -38,6 +38,7 @@ class Course(models.Model):
     duration = models.DurationField(null=True, default=30)
     upvotes = models.ManyToManyField(Profile, related_name='upvotes', blank=True)
     views = models.IntegerField(default=0)
+    downloads = models.IntegerField(default=0)
 
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
@@ -55,6 +56,22 @@ class Course(models.Model):
     def add_view(self):
         self.views = self.views + 1
         self.save()
+
+    def add_download(self):
+        self.views = self.views + 1
+        self.save()
+
+    def duration_long(self):
+        minutes = self.duration.seconds / 60
+        return str(int(minutes / 60)) +  'hours, ' + str(minutes % 60) + 'minutes'
+
+    def duration_minutes(self):
+        sec = self.duration.seconds
+        if sec < 60:
+            return sec
+        else:
+            return self.duration.seconds / 60
+
 
 
 def humanized_count(i):
@@ -95,6 +112,9 @@ def humanized_duration(newer_date, older_date):
 class CourseFile(models.Model):
     file = models.FileField(upload_to=user_directory_path)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    def file_name(self):
+        return self.file.file.name.split('/')[-1]
 
 
 class Audience:

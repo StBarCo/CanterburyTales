@@ -6,11 +6,13 @@
 
 {% block content %}
 <div class="container">
+<div class="col-sm-6 offset-sm-3 text-center mt-5">
 <h2>Login</h2>
 <form method="post">
   {% csrf_token %}
-  {% bootstrap_form form %}
-  <button type="submit" class="btn btn-primary">Login</button>  or <a href="{% url  'profile:signup'%}">Register Now</a>
+  {% bootstrap_form form layout='inline'%}
+  <button type="submit" class="btn btn-primary">Login</button>  or <a href="{% url  'profiles:signup'%}">Register Now</a>
 </form>
+</div>
 </div>
 {% endblock %}

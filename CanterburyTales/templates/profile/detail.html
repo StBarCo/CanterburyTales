@@ -3,66 +3,80 @@
 {% load bootstrap4 %}
 {{ form.media.css }}
 
-
 {% block content %}
     <div class="container">
-        <br>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
+        {% if user.is_authenticated %}
+            <h1>{{ user }}</h1>
+        {% else %}
+            <h1>Not Logged in</h1>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
 
-                            <div class="row">
-                                <div class="col-sm-auto">
-                                    {% if user.profile.pic %}
+                        <div class="row">
+                            <div class="col-sm-auto">
+                                {% if user.profile.pic %}
                                     <img class="rounded-circle avatar avatar-original" style="-webkit-user-select:none;
               display:block; margin:auto; width:200px; max-height: 200px" src={{ user.profile.pic.url }}>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-md">
-                                                    <h1 class="mb-0">{{ user.username }}</h1>
-                                                </div>
-                                                <div class="col-sm-auto">
-                                                    <div class="d-inline align-middle">
-                                                    <button class="btn btn-default"><div class="align-middle"><i class="material-icons medium">edit</i>&nbsp;Edit</div> </button>
+                                {% endif %}
+                            </div>
+                            <div class="col-md">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <h1 class="mb-0">{{ user.username }}</h1>
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <div class="d-inline align-middle">
+                                                <button class="btn btn-default">
+                                                    <div class="align-middle"><i class="material-icons medium">edit</i>&nbsp;Edit
+                                                    </div>
+                                                </button>
 
-                                                    <div class="float-right pl-3">
-                                                        <i class="material-icons text-info">comment</i>&nbsp;500
-                                                    </div>
-                                                    <div class="float-right pl-3">
-                                                        <i class="material-icons text-success">thumb_up</i>&nbsp;1500
-                                                    </div>
-                                                    </div>
+                                                <div class="float-right pl-3">
+                                                    <i class="material-icons text-info">comment</i>&nbsp;500
+                                                </div>
+                                                <div class="float-right pl-3">
+                                                    <i class="material-icons text-success">thumb_up</i>&nbsp;1500
                                                 </div>
                                             </div>
-                                            <h5 class="font-italic mb-0">{{ user.profile.title }}</h5>
-                                            <p>{{ user.profile.org_name }}, {{ user.profile.city }}, {{ user.profile.state }}</p>
-                                            <p>{{ user.profile.about }}</p>
                                         </div>
-
-
+                                    </div>
+                                    <h5 class="font-italic mb-0">{{ user.profile.title }}</h5>
+                                    <p>{{ user.profile.org_name }}, {{ user.profile.city }}, {{ user.profile.state }}</p>
+                                    <p>{{ user.profile.about }}</p>
                                 </div>
+
+
                             </div>
+                        </div>
 
-                            <div class="row border border-primary rounded-bottom">
-                                <div class="col-lg m-3 bg-light border border-secondary rounded">
-                                    <h1>Courses:</h1>
-                                </div>
-                                <div class="col-sm-auto m-3 bg-info border-dark border-primary rounded">
-                                    <div class="row"></div><h2>Recent Likes</h2>
-                                    <div class="row"></div><h2>Recent Comments</h2>
-                                </div>
+                        <div class="row">
+                <div class="row bg-white border rounded-top" style="border: 1px solid rgba(0,0,0,.125);">
+                                <h1>Courses:</h1>
+                            {% with courses=user.profile.course_set.all %}
+
+                                {% if courses %}
+                                    {% include "courses/course_list.html" %}
+                                {% else %}
+                                    <p>No courses are available</p>
+                                {% endif %}
+                            {% endwith %}
+                            </div>
+                            <div class="col-sm-auto m-3 bg-info border-dark border-primary rounded hidden d-none">
+                                <div class="row"></div>
+                                <h2>Recent Likes</h2>
+                                <div class="row"></div>
+                                <h2>Recent Comments</h2>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+
 
 {% endblock %}

@@ -11,7 +11,7 @@ function getTitles(values, special_defs, defs) {
 
     return $t;
 
-}
+};
 
 function createAudienceSlider(item, breakpoints, initial = [18, 65], enabled = true) {
     return item.bootstrapSlider({
@@ -22,7 +22,10 @@ function createAudienceSlider(item, breakpoints, initial = [18, 65], enabled = t
         value: initial,
         enabled: enabled,
     })
-}
+};
+
+
+
 
 
 

@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('profile/', include('django.contrib.auth.urls')),
+    path('profiles/', include('django.contrib.auth.urls')),
     path('', include('CanterburyTales.courses.urls')),
-    path('profile/', include('CanterburyTales.profiles.urls')),
+    path('profiles/', include('CanterburyTales.profiles.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

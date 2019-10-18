@@ -1,118 +1,127 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load bootstrap4 %}
 {% load custom_tags %}
+{% load static %}
 {% block extra_head %}
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/css/bootstrap-slider.min.css"/>
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js"></script>
     <script type="text/javascript" src="{% static "courses/script.js" %}"></script>
-
+    {{ form.media.css }}
+    {{ form.media.js }}
 {% endblock %}
+
 {% block content %}
     <div class="container">
+        {% if not user.is_authenticated %}
         <div class="row">
-            <div class="col-md-4 order-md-2 mb-4 pr-0" id="filter_column">
-                <div class="accordion">
-                    <div class="card">
-                        <div class="card-header" id="headingOne">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse"
-                                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Filter Courses
-                                </button>
-                            </h2>
-                        </div>
+            <div class="col ">
 
-                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                             data-parent="#accordionExample">
-                            <div class="card-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it
-                                squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-                                craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-                                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
-                                nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                <div class="card bg-info text-white mt-5">
+                    <div class="card-body">
+                        <div class="row pl-3 pr-3">
+                            <div class="col-md-4">
+                                <div class="row">
+                                    Canterbury Tales is a place for clergy and laity to share
+                                    Anglican-flavored non-copyrighted lesson plans.
+                                </div>
+                                <div class="row mt-3 mb-3">
+                                    <a class="btn btn-primary pl-4 pr-4" href="{% url 'login' %}" role="button">Join!</a>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6><b>How it works:</b></h6>
+                                <div class="card-group">
+                                    <div class="card bg-info border-info">
+                                        <img src="{% static "courses/images/add.svg" %}" class="card-img-top" style="max-height: 50px"/>
+                                        <div class="card-body">
+                                            <p class="card-text small">We all share self-written lessons with the broader Anglican Church.</p>
+                                        </div>
+                                    </div>
+                                    <div class="card bg-info border-info">
+                                        <img src="{% static "courses/images/thumb_up.svg" %}" class="card-img-top" style="max-height: 50px"/>
+                                        <div class="card-body">
+                                            <p class="card-text small">Fellow teachers and clergy upvote the most useful courses.</p>
+                                        </div>
+                                    </div>
+                                    <div class="card bg-info border-info">
+                                        <img src="{% static "courses/images/trending_up.svg" %}" class="card-img-top" style="max-height: 50px"/>
+                                        <div class="card-body">
+                                            <p class="card-text small">The best lessons rise to the top.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-8 order-md-1">
-                <div class="row bg-white border rounded-top" style="border: 1px solid rgba(0,0,0,.125);">
-                    <div class="level-item">
-                        <div class="">
-                            <h1 class="title">New and Popular Courses</h1>
-                        </div>
-                    </div>
-                </div>
-                {% if courses %}
-                    <div class="">
-
-                        {% for course in courses %}
-                            <div class="row bg-white py-3 px-3" style="border: 1px solid rgba(0,0,0,.125);">
-                                <div class="col-sm-auto">
-                                    <div>
-                                        <a href="{% url 'courses:upvote' course.id %}" class="vote-btn ">
-                                            <div class="d-inline align-middle"><img
-                                                    src="{% static "courses/caret-up.svg" %}" alt="Upvote"
-                                                    class='upvote_carat'></img>
-                                            </div>
-                                            <h5 class="upvote_count mt-0">{{ course.upvotes.count }}</h5>
-                                        </a>
-                                    </div>
+        </div>
+        {% endif %}
+        <div class="row mt-5 justify-content-between">
+            <div class="col-md-3 order-md-2 mb-4 " id="filter_column">
+                <div class="accordion">
+                    <form method="get" class="form">
+                        {% csrf_token %}
+                        <div class="card bg-white">
+                            <div class="card-header" id="headingOne">
+                                <h1 class="mb-0">
+                                    <a class="btn btn-link" type="button" data-toggle="collapse"
+                                       data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Filter Tags
+                                    </a>
+                                </h1>
+                            </div>
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                 data-parent="#accordionExample">
+                                <div class="card-body">
+                                    {% bootstrap_field form.tags show_label=False %}
+                                    {% bootstrap_field form.tags_exact %}
                                 </div>
-
-                                <div class="col-md">
-                                    <div class="row">
-                                        <div class="col-auto mr-auto pl-0">
-                                            <a href="{% url 'courses:detail' course.id %}"><h5
-                                                    class="">{{ course.title }}</h5></a>
-                                            <h6>
-                                                {% for tag in course.tags.all %}
-                                                    <span class="badge badge-secondary">{{ tag.title }}</span>
-                                                {% endfor %}
-                                            </h6>
-
-                                        </div>
-                                        <div class="col-4">
-                                            {#                                        </div>#}
-                                            {#                                        <div class="col-4">#}
-                                            <div id='slider_container'>
-                                                <div class='audience_slider'
-                                                     data-slider="[{{ course.audience.lower }}, {{ course.audience.upper }}]"></div>
-                                            </div>
-                                            <div class='audience_titles text-center'>{{ course.audience_description }}</div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <p class="small text-muted">Submitted by {{ course.author }}
-                                            | {{ course.posted_humanized }} | {{ course.views_humanized }} views</p>
-                                        {#                                        <p class="card-text">{{ course.description|truncatechars:90 }}</p>#}
-
+                            </div>
+                        </div>
+                        <div class="card bg-white">
+                            <div class="card-header" id="headingtwo">
+                                <h2 class="mb-0">
+                                    <a class="btn btn-link" type="button" data-toggle="collapse"
+                                       data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        Filter Audience
+                                    </a>
+                                </h2>
+                            </div>
+                            <div id="collapseTwo" class="collapse show" aria-labelledby="headingtwo"
+                                 data-parent="#accordionExample">
+                                <div class="card-body">
+                                    {% bootstrap_field form.audience_0 show_label=False %}
+                                    {% bootstrap_field form.audience_1 show_label=False %}
+                                    {% bootstrap_field form.audience_exact show_label=False %}
+                                    <div id='audience_titles'><span id="audience_lower"></span> through <span
+                                            id="audience_upper"></span></div>
+                                    <div id='slider_container'>
+                                        <div id='audience_filter'></div>
                                     </div>
                                 </div>
                             </div>
-
-                        {% endfor %}
-                    </div>
-
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-9 order-md-1">
+                <div class="bg-white border rounded-top pt-2 px-4 text-center" style="border: 1px solid rgba(0,0,0,.125);">
+                    <h1 class=" ">New and Popular Courses</h1>
+                </div>
+                {% if courses %}
+                    {% include "courses/course_list.html" %}
                 {% else %}
                     <p>No courses are available</p>
                 {% endif %}
 
 
             </div>
-
         </div>
-        <!-- flex-container -->
-
     </div>
-    </div>
-    </div>
-    </div>
-    <div class="container">
 
 {% endblock %}
 
@@ -120,10 +129,36 @@
     var $audience = {% autoescape off %}{% audience_map %}{% endautoescape %};
     var $audience_special = {% autoescape off %}{% audience_special_map %}{% endautoescape %};
     var $ages = {% audience_breakpoints %}
+    var $initial_values = [parseInt($("#id_audience_0").val()),parseInt($("#id_audience_1").val())];
 
-    $( document ).ready(function() {
 
-    $( ".audience_slider" ).each(function( index ) {
+    $(document).ready(function () {
+    $("#id_audience_0, #id_audience_1").hide();
+    $("#audience_titles").appendTo($("#id_audience_0").parent());
+    $("#slider_container").appendTo($("#id_audience_0").parent());
+    let $a_slider = createAudienceSlider($('#audience_filter'), $ages, initial = $initial_values, enabled = true);
+
+    setElements($initial_values);
+
+    $a_slider.on("slide", function (slideEvt) {
+    setElements($('#audience_filter').val());
+    });
+
+    function setElements(value_array) {
+    $("#audience_titles").text(getTitles(value_array, $audience_special, $audience));
+    document.getElementById("id_audience_0").value = $('#audience_filter').val()[0];
+    document.getElementById("id_audience_1").value = $('#audience_filter').val()[1];
+    }
+
+    $('#id_audience_0, #id_audience_1, #id_audience_exact, #id_tags, #id_tags_exact').change(function(){
+    trigger_courses_call();
+    });
+
+    $a_slider.on("slideStop", function (slideEvt) {
+    trigger_courses_call();
+    });
+
+    $(".audience_slider").each(function (index) {
     $(this).bootstrapSlider({
     range: true,
     min: 0,
@@ -135,8 +170,47 @@
     });
     });
 
-
     });
 
+    function trigger_courses_call(){
+    var $response = get_courses($('#id_audience_0').val(), $('#id_audience_1').val(),
+    $('#id_audience_exact').is(":checked") ? 1 : 0, $('#id_tags').val().join('&') || 'all',
+    $('#id_tags_exact').is(":checked") ? 1 : 0);
+    }
 
+    // AJAX for posting
+    function get_courses(a_low, a_high, a_match, tags, tags_match){
+
+    $.ajax({
+    url : "search/audience/" + a_low + '-' + a_high + '/' + a_match + '/tags/' + tags + '/' + tags_match,
+    type : "GET", // http method
+    dataType: "html", // data sent with the post request
+
+    // handle a successful response
+    success : function(json) {
+    $('#courses').replaceWith(json); // remove the value from the input
+    $(".audience_slider").each(function (index) {
+    $(this).bootstrapSlider({
+    range: true,
+    min: 0,
+    max: 65,
+    lock_to_ticks: true,
+    id: index,
+    value: $(this).data('slider'),
+    enabled: false,
+    });
+    });
+
+    },
+
+    // handle a non-successful response
+    error : function(xhr,errmsg,err) {
+    $('#courses').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+        " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+    }
+    });
+    }
 {% endblock %}
+
+

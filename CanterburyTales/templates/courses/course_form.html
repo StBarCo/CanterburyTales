@@ -5,12 +5,13 @@
 {% block extra_head %}
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/css/bootstrap-slider.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'courses/bootstrap-duration-picker.css' %} " />
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js"></script>
-    <script type="text/javascript" src="{% static "courses/script.js" %}"></script>
+          <script type="text/javascript" src="{% static "courses/script.js" %}"></script>
+        <script type="text/javascript" src="{% static "courses/bootstrap-duration-picker.js" %}"></script>
     {{ form.media.css }}
     {{ form.media.js }}
-
 {% endblock %}
 
 {% block content %}
@@ -37,15 +38,23 @@
 
 {% block extra_js %}
 
+
+
     var $audience = {% autoescape off %}{% audience_map %}{% endautoescape %};
     var $audience_special = {% autoescape off %}{% audience_special_map %}{% endautoescape %};
     var $ages = {% audience_breakpoints %}
 
     $( document ).ready(function() {
+        $('#id_duration').durationPicker({
+    showSeconds: false,
+    showDays: false,
+});
+    $('#id_duration').data('durationPicker').setValue(1800);
+
     $("#id_audience_0, #id_audience_1").hide();
     $("#audience_titles").appendTo( $("#id_audience_0").parent() );
     $("#slider_container").appendTo( $("#id_audience_0").parent() );
-    var $a_slider = createAudienceSlider($('#audience_slider'), $ages, initial=[18,65], enabled=true)
+    var $a_slider = createAudienceSlider($('#audience_slider'), $ages, initial=[18,65], enabled=true);
 
     setElements([18,65]);
 
@@ -55,10 +64,12 @@
 
     function setElements(value_array) {
         $("#audience_titles").text(getTitles(value_array, $audience_special, $audience));
-        document.getElementById("id_audience_0").value = $('#audience_slider').val()[0]
-        document.getElementById("id_audience_1").value = $('#audience_slider').val()[1]
+        document.getElementById("id_audience_0").value = $('#audience_slider').val()[0];
+        document.getElementById("id_audience_1").value = $('#audience_slider').val()[1];
     }
     });
+
+
 
 
 

@@ -1,6 +1,22 @@
 body {
-    /*background: #f4f4f4;*/
+    font-family: 'Noto Sans', sans-serif;
 }
+
+h1, h2, h3, h4, nav, .h-font{
+    font-family: 'Fjalla One', sans-serif; !important;
+}
+
+.author-card-header{
+    font-size: 1.2rem;
+}
+
+.equal {
+  display: flex;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+}
+
+
 
 .container {
     margin-top: 10px;
@@ -69,6 +85,7 @@ img.avatar {
     color: #616161;
     border: 1px solid #d9d9d9;
     border-radius: 3px;
+
 }
 
 .only-bottom-margin {

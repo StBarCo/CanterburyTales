@@ -6,7 +6,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.urls import reverse_lazy
 from django import forms
-from .forms import CourseForm
+from .forms import CourseForm, FilterForm
 import datetime
 from .models import Course, Profile, User, Tag, CourseFile, Audience
 import zipfile
@@ -15,16 +15,39 @@ from django.db.models import Count
 from psycopg2.extras import Range, NumericRange
 from django.contrib.postgres.fields import IntegerRangeField
 from django.db import models
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class IndexView(generic.ListView):
-    template_name = 'courses/index.html'
-    model = Course
-    context_object_name = 'courses'
+class IndexView(generic.TemplateView):
+    # template_name = 'courses/index.html'
 
-    def get_queryset(self):
-        queryset = parse_age_params(self.kwargs.get('age', 'all'), self.kwargs.get('age_exact', 0))
-        queryset = parse_tag_params(queryset, self.kwargs.get('tags', 'all'), self.kwargs.get('tags_exact', 0))
+    def get_template_names(self):
+        if self.request.is_ajax():
+            return 'courses/course_list.html'
+        return 'courses/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_params'] = {
+            'audience': parse_audience_params(self.kwargs.get('audience', '0,65')),
+            'audience_exact': bool(self.kwargs.get('audience_exact', 0)),
+            'tags': parse_tag_params(self.kwargs.get('tags', '')),
+            'tags_exact': bool(self.kwargs.get('tags_exact', 0)),
+        }
+        context['courses'] = self.get_queryset(context['search_params'])
+        context['form'] = FilterForm(initial={
+            'audience_0': context['search_params']['audience'][0],
+            'audience_1': context['search_params']['audience'][1],
+            'audience_exact': context['search_params']['audience_exact'],
+            'tags': context['search_params']['tags'],
+            'tags_exact': context['search_params']['tags_exact'],
+        }
+        )
+        return context
+
+    def get_queryset(self, params):
+        queryset = filter_audience(params['audience'], params['audience_exact'])
+        queryset = filter_tags(queryset, params['tags'], params['tags_exact'])
 
         queryset = queryset.annotate(num_upvotes=Count('upvotes')) \
             .order_by('-num_upvotes', '-views')
@@ -50,10 +73,11 @@ class DetailView(generic.DetailView):
         return context
 
 
-class CourseCreate(FormView):
+class CourseCreate(LoginRequiredMixin, FormView):
     template_name = 'courses/course_form.html'
     form_class = CourseForm
     success_url = '/'
+    login_url = 'login'
 
     def form_valid(self, form):
         course = form.save(commit=False)
@@ -85,16 +109,14 @@ def course_upvote(request, pk):
     return HttpResponseRedirect(reverse('courses:index'))
 
 
-def parse_age_params(string, match_type):
+def parse_audience_params(string):
     audience_defs = Audience().get_definitions().keys()
     a_range = string.split('-')
 
     if not len(a_range) == 2:
-        return Course.objects.all()
+        return [0, 65]
     elif not (a_range[0].isdigit() & a_range[1].isdigit()):
-        return Course.objects.all()
-    elif a_range == [0, 65]:
-        return Course.objects.all()
+        return [0, 65]
     else:
         temp_list = []
         for i in a_range:
@@ -110,17 +132,20 @@ def parse_age_params(string, match_type):
             else:
                 temp_list.append(val)
         a_range = temp_list
+    return a_range
 
+
+def filter_audience(audience, match_type):
     if match_type:
-        return Course.objects.filter(audience__startswith=a_range[0]).filter(audience__endswith=a_range[1])
+        return Course.objects.filter(audience__startswith=audience[0]).filter(audience__endswith=audience[1])
     else:
-        return Course.objects.filter(audience__overlap=NumericRange(a_range[0], a_range[1]))
+        return Course.objects.filter(audience__overlap=NumericRange(audience[0], audience[1]))
 
 
-def parse_tag_params(queryset, string, match_type):
+def parse_tag_params(string):
     tags = []
-    if string == 'all':
-        return queryset
+    if string == '' or string == 'all':
+        return ''
 
     for tag in string.split('&'):
         if tag.isdigit():
@@ -130,9 +155,15 @@ def parse_tag_params(queryset, string, match_type):
             tags.append(tag.title())
             tags_set = Tag.objects.filter(title__in=tags)
 
+    return tags_set.values_list('id', flat=True)
+
+
+def filter_tags(queryset, tags, match_type):
+    if tags == '':
+        return queryset
     if match_type:
-        for tag in tags_set:
+        for tag in tags:
             queryset = queryset.filter(tags=tag)
         return queryset
     else:
-        return queryset.filter(tags__in=tags_set)
+        return queryset.filter(tags__in=tags)

@@ -1,61 +1,216 @@
 {% extends 'base.html' %}
-
-
+{% load static %}
+{% load bootstrap4 %}
+{% load custom_tags %}
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/css/bootstrap-slider.min.css"/>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js"></script>
+    <script type="text/javascript" src="{% static "courses/script.js" %}"></script>
+    {{ form.media.css }}
+    {{ form.media.js }}
+{% endblock %}
 {% block content %}
     <div class="container">
-        <br>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
+        <div class="row equal">
+            <div class="col-md-9 equal">
+                <div class="row d-flex py-3 px-3 mb-3 rounded bg-white" style="border: 1px solid rgba(0,0,0,.125);">
 
-                            <div class="row">
-                                <div class="col-sm-auto">
-                                    {% if course.author.pic %}
-                                    <img class="rounded-circle avatar avatar-original" style="-webkit-user-select:none;
-              display:block; margin:auto; width:200px; max-height: 200px" src={{ course.author.pic.url }}>
-                                    {% endif %}
+                    <div class="col-sm-auto mr-3" style="">
+                        <div>
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'courses:upvote' course.id %}" class="vote-btn mb-3 ">
+                            {% else %}
+                                <a href="#" data-toggle="modal" data-target="#loginModal" class="vote-btn">
+                            {% endif %}
+                            <div class="d-inline align-middle mb3"><img
+                                    src="{% static "courses/images/caret-up.svg" %}" alt="Upvote"
+                                    class='upvote_carat'>
+                            </div>
+                            <h5 class="upvote_count mt-0">{{ course.upvotes.count }}</h5>
+                            </a>
+                        </div>
+                        <div class="vote-btn align-middle mb-3">
+                            <div class="small text-muted h-font">Views:</div>
+                            <div>{{ course.views_humanized }}</div>
+
+                        </div>
+                        <div class="text-center" style="width: 3.5rem">
+                        <p class="small text-muted">{{ course.posted_humanized }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="row justify-content-between">
+                            <div class="col-sm-auto pl-0">
+                                <h2 class="text-info">{{ course.title }}</h2>
+                                <row>
+                                    <p class="d-inline-flex align-middle"><i
+                                            class="material-icons text-secondary medium">widgets</i>&nbsp; {{ course.count }}
+                                        &nbsp; &nbsp; &nbsp; &nbsp;
+                                        <i class="material-icons text-secondary ">watch_later</i>&nbsp; {{ course.duration.seconds }}
+                                    </p>
+                                </row>
+
+
+                            </div>
+                            <div class="col-sm-4">
+                                {#                                        </div>#}
+                                {#                                        <div class="col-4">#}
+                                <div id='slider_container'>
+                                    <div class='audience_slider'
+                                         data-slider="[{{ course.audience.lower }}, {{ course.audience.upper }}]"></div>
                                 </div>
-
-                                <div class="col-md">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-md">
-                                                    <h1 class="mb-0">{{ course.title }}</h1>
-                                                </div>
-                                                <div class="col-sm-auto">
-                                                    <div class="d-inline align-middle">
-                                                    <button class="btn btn-default"><div class="align-middle"><i class="material-icons medium">edit</i>&nbsp;Edit</div> </button>
-
-                                                    <div class="float-right pl-3">
-                                                        <i class="material-icons text-info">comment</i>&nbsp;500
-                                                    </div>
-                                                    <div class="float-right pl-3">
-                                                        <i class="material-icons text-success">thumb_up</i>&nbsp;1500
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <h5 class="font-italic mb-0">{{ course.author.title }}</h5>
-                                            <p>{{ user.profile.org_name }}, {{ course.author.city }}, {{ course.author.state }}</p>
-                                        </div>
-                                </div>
+                                <div class='audience_titles text-center'>{{ course.audience_description }}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h6>
+                                {% for tag in course.tags.all %}
+                                    <span class="badge badge-secondary">{{ tag.title }}</span>
+                                {% endfor %}
+                            </h6>
+                        </div>
+                        <div class="row">
+                            <p>{{ course.description }}</p>
+                        </div>
+                        {#                        <div class="row">#}
+                        {#                            <p class="small text-muted">| {{ course.posted_humanized }}</p>#}
+                        {#                                        <p class="card-text">{{ course.description|truncatechars:90 }}</p>#}
+                        {##}
+                        {#                        </div>#}
+                        <div class="row">
+                            <div class="col pl-0">
+                                <h4 class="text-muted">Files:</h4>
                                 <div>
                                     {% for file in course.coursefile_set.all %}
-                                        <a href="{{ file.file.url }}" alt="Download">Download {{ file.file }}</a>
-                                        <div></div>
+                                        {% if user.is_authenticated %}
+                                            <a href="{{ file.file.url }}" alt="Download" class="text-info">
+                                        {% else %}
+                                            <a href="#" data-toggle="modal" data-target="#loginModal" class="text-info">
+                                        {% endif %}
+                                    <u>{{ file.file_name }}</u>
+                                    </a>
                                     {% endfor %}
+
+
+
+                                    {#                            </div>#}
                                 </div>
+
                             </div>
-
-
                         </div>
                     </div>
                 </div>
+
             </div>
+            <div class="col-md-3 equal">
+                <div class="card bg-light mb-3">
+                    <div class="card-header author-card-header h-font">
+                        {#                        <a href="{% url "profiles:detail" course.author.user.username %}" class="text-info">#}
+                        <span class="text-info">
+{#                            <u>#}
+                                {{ course.author.user.username }}
+{#                            </u>#}
+                        </span>
+                        {#                        </a>#}
+                        <small
+                                class="text-muted">{{ course.author.title }}</small>
+                        <p><small
+                                class="text-muted">{{ course.author.org_name }}, {{ course.author.city }}, {{ course.author.state }}</small>
+                        </p></div>
+                    {% if course.author.pic %}
+                        <img class="card-img-top" src={{ course.author.pic.url }}>
+                    {% endif %}
+                    <div class="card-body">
+                        <div class="card-text">
+                            {{ course.author.about }}
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
         </div>
 
     </div>
+
+
 {% endblock %}
+
+{% block extra_js %}
+
+    $(document).ready(function () {
+
+
+    $(".audience_slider").each(function (index) {
+    $(this).bootstrapSlider({
+    range: true,
+    min: 0,
+    max: 65,
+    lock_to_ticks: true,
+    id: index,
+    value: $(this).data('slider'),
+    enabled: false,
+    });
+    });
+
+    });
+
+{% endblock %}
+
+
+<div class="row bg-white py-3 px-3 rounded" style="border: 1px solid rgba(0,0,0,.125);">
+    <div class="col-sm-auto">
+        <div>
+            {% if user.is_authenticated %}
+                <a href="{% url 'courses:upvote' course.id %}" class="vote-btn ">
+            {% else %}
+                <a href="#" data-toggle="modal" data-target="#loginModal" class="vote-btn">
+            {% endif %}
+            <div class="d-inline align-middle"><img
+                    src="{% static "courses/images/caret-up.svg" %}" alt="Upvote"
+                    class='upvote_carat'>
+            </div>
+            <h5 class="upvote_count mt-0">{{ course.upvotes.count }}</h5>
+            </a>
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="row justify-content-between">
+            <div class="col-sm-auto mr-auto pl-0">
+                <a href="{% url 'courses:detail' course.id %}"><h2
+                        class="">{{ course.title }}</h2></a>
+                <h6>
+                    {% for tag in course.tags.all %}
+                        <span class="badge badge-secondary">{{ tag.title }}</span>
+                    {% endfor %}
+                </h6>
+
+            </div>
+            {#                            <div class="col-4">#}
+            {#                            </div>#}
+            <div class="col-sm-auto ml-auto">
+                <div id='slider_container'>
+                    <div class='audience_slider'
+                         data-slider="[{{ course.audience.lower }}, {{ course.audience.upper }}]"></div>
+                </div>
+                <div class='audience_titles text-center'>{{ course.audience_description }}</div>
+            </div>
+        </div>
+        <div class="row">
+            {{ course.year_written }}
+            {{ course.count }}
+            {{ course.duration }}
+            {{ course.description }}
+        </div>
+        <div class="row">
+            <p class="small text-muted">Submitted by {{ course.author }}
+                | {{ course.posted_humanized }} | {{ course.views_humanized }} views</p>
+            <p class="card-text">{{ course.description|truncatechars:90 }}</p>
+
+        </div>
+    </div>
+</div>

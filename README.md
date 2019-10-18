@@ -26,26 +26,26 @@ Uses Bootstrap4 via the django-bootstrap4 plugin, and also material icons.
 - [X] Style age range slider and add JS to display readable ages: [0: 0, 4: Pre-K, 5: Kindergarten.... 15-18: High School... Etc]
       e.g. a slider from 15-60 would have readable display "High School through Adults" or similar.
 
-- [ ] Complete styling for Course.index view (especially course list and filters) based on 
+- [X] Complete styling for Course.index view (especially course list and filters) based on 
       https://hackr.io/tutorials/learn-python 
-- [ ] Add AJAX calls to filter course list/just POST/reload?
-- [ ] Search URL pattern: /search/{ages}/{tags}/{search-phrase}(optional)
+- [X] Add AJAX calls to filter course list/just POST/reload?
+- [X] Search URL pattern: /search/{ages}/{tags}/{search-phrase}(optional)
     - e.g. /serach/0-18/Confirmation&Bible&Jesus/video-illustrations
-- [ ] Add search bar and function to search course title, description and tags.
+- [X] Add search bar and function to search course title, description and tags.
 
-- [ ] Extract the course list into its own template so that it can be used to also list all of a User's shared courses and upboted courses (to templates/courses/course_list.html)
+- [X] Extract the course list into its own template so that it can be used to also list all of a User's shared courses and upboted courses (to templates/courses/course_list.html)
 - [X] Create AJAX call for new upovte (implemented as non-ajax)
 
-- [ ] Imitate the welcome banner of http://hackr.io. Canterbury tales is... Here's how it works...
+- [X] Imitate the welcome banner of http://hackr.io. Canterbury tales is... Here's how it works...
 
 ##### #new/edit
 - [X] Implement the age range slider for course creation.
-- [ ] Add appropriate div container and formatting.
+- [X] Add appropriate div container and formatting.
 - [ ] Show files input and impletent file storage and zipping multiples(?)
-- [ ] Create good way for user to seamlessly create new tags while selecting.
+- [X] Create good way for user to seamlessly create new tags while selecting.
 
 ##### #detail
-- [ ] Create detail view. Perhaps based on profile view? Don't have specific vision for how it looks.
+- [X] Create detail view. Perhaps based on profile view? Don't have specific vision for how it looks.
 
 ##### #delete
 - [ ] Create function and add button with warning.
@@ -66,12 +66,12 @@ Uses Bootstrap4 via the django-bootstrap4 plugin, and also material icons.
 - [ ] use templates well
 - [ ] Add better style to header /template/base.html
 - [ ] Add slug fields to course and profile and reformat urls
-- [ ] Storage -- Use Google cloud storage if using proxy cloud db or deployed.
+- [X] Storage -- Use Google cloud storage if using proxy cloud db or deployed.
 
 #### Permissions
 - [ ] implement all permissions
-    - [ ] logged out: all courses. Propmted to login/create account, upvote or download. - Show popup prompt to register.
-    - [ ] logged in: View courses and profiles, but can upvote/download. Also can edit own profile and own courses (eventually can comment)
+    - [X] logged out: all courses. Propmted to login/create account, upvote or download. - Show popup prompt to register.
+    - [X] logged in: View courses and profiles, but can upvote/download. Also can edit own profile and own courses (eventually can comment)
     - [ ] editor: Same as logged in, but can... um... ban users? Not sure.
 
 ### Beautification
