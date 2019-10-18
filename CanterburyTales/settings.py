@@ -28,7 +28,7 @@ GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
 SECRET_KEY = '(#(+oEGX3JDpjhat396S4RVH^z$#kbM@060*of6e#97nmc36fvzr*=kt#=(0h*a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'CanterburyTales.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-USE_CLOUD_PROXY = True
+USE_CLOUD_PROXY = False
 # Running  Cloud SQL via the proxy. To start the proxy via command line:
 #   ./cloud_sql_proxy -instances=canterburytales:us-central1:canterburytales=tcp:3306
 
