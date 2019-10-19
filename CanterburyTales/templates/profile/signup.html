@@ -5,19 +5,33 @@
 
 
 {% block content %}
-<div class="container">
-<h2>Signup</h2>
-<form method="post">
-  {% csrf_token %}
-    {% bootstrap_form_errors user_form layout='inline' %}
-        {% bootstrap_form_errors profile_form layout='inline' %}
+    <div class="container">
+        <h2>Signup</h2>
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form_errors user_form layout='inline' %}
+            {% bootstrap_form_errors profile_form layout='inline' %}
 
-  {% bootstrap_form user_form layout='inline'%}
-  {% bootstrap_form profile_form  layout='inline'%}
+            {% bootstrap_form user_form layout='inline' %}
+            {#            {% bootstrap_form profile_form layout='inline' %}#}
 
-        <button type="submit" class="btn btn-primary">Sign up</button>
+            {% bootstrap_field profile_form.org_name layout='inline' %}
 
-</form>
-</div>
+            {% bootstrap_field profile_form.title layout='inline' %}
+
+            {% bootstrap_field profile_form.city layout='inline' %}
+            {% bootstrap_field profile_form.state layout='inline' %}
+
+
+            {% bootstrap_field profile_form.about layout='inline' %}
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="id_pic">
+                <label class="custom-file-label text-muted" for="id_pic">Profile Picture</label>
+                <small class="form-text text-muted">Must be less than 2Mb</small>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Sign up</button>
+
+        </form>
+    </div>
 
 {% endblock %}

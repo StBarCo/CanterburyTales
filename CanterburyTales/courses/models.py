@@ -4,6 +4,9 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from CanterburyTales.profiles.models import Profile
 from django.contrib.postgres.fields import IntegerRangeField
+from django.shortcuts import render, redirect
+
+from django.urls import reverse
 import os
 import math
 import datetime
@@ -40,6 +43,9 @@ class Course(models.Model):
     views = models.IntegerField(default=0)
     downloads = models.IntegerField(default=0)
 
+    def get_absolute_url(self):
+        return redirect('courses:detail', pk=self.pk)
+
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
         return self.title
@@ -62,15 +68,24 @@ class Course(models.Model):
         self.save()
 
     def duration_long(self):
-        minutes = self.duration.seconds / 60
-        return str(int(minutes / 60)) +  'hours, ' + str(minutes % 60) + 'minutes'
+        minutes = self.duration_minutes()
+        long = ''
+        if minutes >= 60:
+            long += str(int(minutes / 60)) + ' hrs'
+
+        if minutes % 60 != 0:
+            if long != '':
+                long += ', '
+            long += str(int(minutes % 60)) + ' min'
+
+        return long
 
     def duration_minutes(self):
         sec = self.duration.seconds
         if sec < 60:
             return sec
         else:
-            return self.duration.seconds / 60
+            return int(self.duration.seconds / 60)
 
 
 

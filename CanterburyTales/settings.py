@@ -28,7 +28,7 @@ GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
 SECRET_KEY = '(#(+oEGX3JDpjhat396S4RVH^z$#kbM@060*of6e#97nmc36fvzr*=kt#=(0h*a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -71,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django.template.context_processors.request",
             ],
         },
     },

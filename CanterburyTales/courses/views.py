@@ -16,6 +16,7 @@ from psycopg2.extras import Range, NumericRange
 from django.contrib.postgres.fields import IntegerRangeField
 from django.db import models
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, redirect
 
 
 class IndexView(generic.TemplateView):
@@ -91,14 +92,18 @@ class CourseCreate(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
 
-class CourseUpdate(UpdateView):
+class CourseUpdate(LoginRequiredMixin, UpdateView):
+    template_name = 'courses/course_form.html'
+    form_class = CourseForm
     model = Course
-    fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+    login_url = 'login'
 
 
-class CourseDelete(DeleteView):
-    model = Course
-    # success_url = reverse_lazy('courses')
+def course_delete(request, pk):
+    course = Course.objects.get(pk=pk)
+    if request.user == course.author.user:
+        course.delete()
+    return redirect("courses:index")
 
 
 def course_upvote(request, pk):
@@ -106,7 +111,26 @@ def course_upvote(request, pk):
     profile = request.user.profile
     course.upvotes.add(request.user.profile)
     course.save()
-    return HttpResponseRedirect(reverse('courses:index'))
+    return redirect('courses:index')
+
+
+def course_add_download(request, pk):
+    a = 1
+
+
+def add_file(request, c_id):
+    course = Course.objects.get(pk=c_id)
+    if course.author.user == request.user:
+        for file in request.FILES.getlist('course_files'):
+            CourseFile.objects.create(file=file, course=course)
+    return redirect('courses:detail', c_id)
+
+
+def delete_file(request, course, file):
+    file = CourseFile.objects.get(pk=file)
+    if course == file.course.id:
+        file.delete()
+    return redirect('courses:detail', course)
 
 
 def parse_audience_params(string):

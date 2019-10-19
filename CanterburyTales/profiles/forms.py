@@ -5,12 +5,19 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .models import Profile
 from django.conf import settings
+from django.core.exceptions import ValidationError
+
+
+def file_size(value): # add this to some file where you can import it from
+    limit = 2 * 1024 * 1024
+    if value.size > limit:
+        raise ValidationError('File too large. Size should not exceed 2 MiB.')
 
 
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('username', 'password1', 'password2', 'email')
+        fields = ('username', 'password1', 'password2', 'email',)
 
         labels = {
             'password': "Last 4 digits of a phone number. Or any other passcode or passphrase you like",
@@ -38,7 +45,10 @@ class ProfileForm(forms.ModelForm):
         help_text='I am passionate about...',
         widget=forms.Textarea
     )
+    pic = forms.FileField(label='Profile Picture', help_text='Must be less than 2Mb')
 
     class Meta:
         model = Profile
-        fields = ('org_name', 'title', 'city', 'state', 'about')
+        fields = ('org_name', 'title', 'city', 'state', 'about', 'pic')
+
+

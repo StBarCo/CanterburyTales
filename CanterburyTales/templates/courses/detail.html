@@ -15,7 +15,8 @@
     <div class="container">
         <div class="row equal">
             <div class="col-md-9 equal">
-                <div class="row d-flex py-3 px-3 mb-3 rounded bg-white" style="border: 1px solid rgba(0,0,0,.125);">
+                <div class="row d-flex w-100 py-3 px-3 mb-3 rounded bg-white"
+                     style="border: 1px solid rgba(0,0,0,.125);">
 
                     <div class="col-sm-auto mr-3" style="">
                         <div>
@@ -37,18 +38,40 @@
 
                         </div>
                         <div class="text-center" style="width: 3.5rem">
-                        <p class="small text-muted">{{ course.posted_humanized }}</p>
+                            <p class="small text-muted">{{ course.posted_humanized }}</p>
                         </div>
                     </div>
                     <div class="col-md">
                         <div class="row justify-content-between">
                             <div class="col-sm-auto pl-0">
-                                <h2 class="text-info">{{ course.title }}</h2>
+                                <h2 class="text-info">{{ course.title }}
+                                    {% if course.author.user.id == user.id %}
+                                        &nbsp;&nbsp;
+
+                                        <div class="dropdown show d-inline">
+
+                                            <a class="btn btn-white dropdown-toggle" href="#" role="button"
+                                               id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                               aria-expanded="false"> <i
+                                                    class="material-icons large text-info">settings</i></a>
+
+
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item btn-link disabled"
+                                                   href="{% url 'courses:edit' pk=course.pk %}">Update</a>
+                                                <a class="dropdown-item" href="#"
+                                                   data-href="{% url 'courses:delete' pk=course.pk %}"
+                                                   data-toggle="modal" data-target="#confirm-delete">Delete</a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                </h2>
                                 <row>
                                     <p class="d-inline-flex align-middle"><i
                                             class="material-icons text-secondary medium">widgets</i>&nbsp; {{ course.count }}
                                         &nbsp; &nbsp; &nbsp; &nbsp;
-                                        <i class="material-icons text-secondary ">watch_later</i>&nbsp; {{ course.duration.seconds }}
+                                        <i class="material-icons text-secondary ">watch_later</i>&nbsp; {{ course.duration_long }}
                                     </p>
                                 </row>
 
@@ -81,16 +104,61 @@
                         {#                        </div>#}
                         <div class="row">
                             <div class="col pl-0">
-                                <h4 class="text-muted">Files:</h4>
+
+                                {% if user.is_authenticated and user.id == course.author.user.id %}
+                                    <form id='add_files_form' role="form" method="POST" enctype="multipart/form-data"
+                                          action="{% url 'courses:add_file' course.id %}">
+                                        {% csrf_token %}
+                                        {#    {{ form.as_ul}}#}
+                                        <h4 class="text-muted d-inline">Files:</h4>
+
+                                        <label class="btn btn-default text-muted" for="id_course_files">
+                                            <i class="material-icons text-info large">add</i> Add Other Files
+                                            <input
+                                                    type="file" name="course_files" multiple=""
+                                                    class="form-control-file d-none"
+                                                    title="" required="" id="id_course_files"
+                                                    onchange="document.getElementById('add_files_form').submit();">
+                                        </label>
+                                        {#                                        {% buttons %}#}
+                                        {#                                            <button type="submit" class="btn btn-secondary">#}
+                                        {#                                                Send.#}
+                                        {#                                            </button>#}
+                                        {#                                        {% endbuttons %}#}
+                                        {#                                        <div class='label label-info' id="upload-file-info"></div>#}
+
+
+                                    </form>
+                                {% else %}
+                                    <h4 class="text-muted">Files:</h4>
+
+                                {% endif %}
+
                                 <div>
                                     {% for file in course.coursefile_set.all %}
-                                        {% if user.is_authenticated %}
-                                            <a href="{{ file.file.url }}" alt="Download" class="text-info">
-                                        {% else %}
-                                            <a href="#" data-toggle="modal" data-target="#loginModal" class="text-info">
-                                        {% endif %}
-                                    <u>{{ file.file_name }}</u>
-                                    </a>
+
+                                        <div>
+                                            <p class="d-inline-flex align-middle mb-1">
+                                                {% if user.is_authenticated %}
+                                                    <a href="{{ file.file.url }}" alt="Download"
+                                                       class="text-info"><u>{{ file.file_name }}</u></a>
+
+                                                    {% if user.id == course.author.user.id %}
+                                                        &nbsp;&nbsp;
+                                                        <a class="" href="#"
+                                                           data-href="{% url 'courses:delete_file' c_id=course.pk f_id=file.pk %}"
+                                                           data-toggle="modal" data-target="#confirm-delete"><i
+                                                                class="material-icons text-info">delete</i></a>
+
+                                                    {% endif %}
+
+                                                {% else %}
+                                                    <a href="#" data-toggle="modal" data-target="#loginModal"
+                                                       class="text-info"><u>{{ file.file_name }}</u></a>
+                                                {% endif %}
+                                            </p>
+
+                                        </div>
                                     {% endfor %}
 
 
@@ -157,6 +225,10 @@
     });
     });
 
+    });
+
+    $('#confirm-delete').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
     });
 
 {% endblock %}

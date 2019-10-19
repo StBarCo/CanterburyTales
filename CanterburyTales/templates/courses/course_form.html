@@ -19,7 +19,9 @@
         <form role="form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {#    {{ form.as_ul}}#}
-            {% bootstrap_form form %}
+                    {% bootstrap_form_errors form layout='' %}
+
+            {% bootstrap_form_ form %}
 
             {% buttons %}
                 <button type="submit" class="btn btn-primary">
