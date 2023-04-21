@@ -12,5 +12,5 @@ python-stdnum==1.11
 pytz==2019.2
 six==1.11.0
 soupsieve==1.9.3
-sqlparse==0.2.4
+sqlparse==0.4.4
 django-storages[google]
